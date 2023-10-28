@@ -1,0 +1,3 @@
+pip install telemetrix
+pip install pyfirmata
+pip install telemetrix-aio
