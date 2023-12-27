@@ -7,6 +7,7 @@ const int yPin = A1;
 const int swPin = 13;
 
 void setup(){
+    // initialize the pins
     Serial.begin(115200);
     pinMode(bluePin, OUTPUT);
     pinMode(redPin, OUTPUT);
@@ -27,23 +28,19 @@ void loop(){
 
 void changeColour(int xValue,int yValue, int swValue){
     if(swValue == 0){
+        // turn off all lights
         analogWrite(redPin, 0);
         analogWrite(greenPin, 0);
         analogWrite(bluePin, 0);
     }
     else{
+        // map the values to the range 0-255
         int topC = map(yValue, 1023, 512, 255, 0);
         int rightC = map(xValue, 512, 1023, 0, 255);
         int leftC = map(xValue, 512, 0, 0, 255);
         int botC = map(yValue, 0, 512, 255, 0);
-        Serial.print("topC: ");
-        Serial.println(topC);
-        Serial.print("rightC: ");
-        Serial.println(rightC);
-        Serial.print("leftC: ");
-        Serial.println(leftC);
-        Serial.print("botC: ");
-        Serial.println(botC);
+       
+       // filter out values that are out of range and replace with stock values
         if(topC < 0){
             topC = 0;
         }
@@ -73,6 +70,7 @@ void changeColour(int xValue,int yValue, int swValue){
             rightC = 255;
             leftC = 255;
         }
+        // set the colours
         analogWrite(redPin, topC);
         analogWrite(greenPin, rightC);
         analogWrite(bluePin, leftC);
